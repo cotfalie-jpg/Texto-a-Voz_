@@ -8,7 +8,7 @@ from PIL import Image
 import base64
 
 st.title("Conversión de Texto a Audio")
-image = Image.open('gato_raton.png')
+image = Image.open('snoopy.png')
 st.image(image, width=350)
 with st.sidebar:
     st.subheader("Esrcibe y/o selecciona texto para ser escuchado.")
@@ -20,12 +20,18 @@ except:
     pass
 
 st.subheader("Una pequeña Fábula.")
-st.write('¡Ay! -dijo el ratón-. El mundo se hace cada día más pequeño. Al principio era tan grande que le tenía miedo. '  
-         ' Corría y corría y por cierto que me alegraba ver esos muros, a diestra y siniestra, en la distancia. ' 
-         ' Pero esas paredes se estrechan tan rápido que me encuentro en el último cuarto y ahí en el rincón está '  
-         ' la trampa sobre la cual debo pasar. Todo lo que debes hacer es cambiar de rumbo dijo el gato...y se lo comió. ' 
-         '  '
-         ' Franz Kafka.'
+st.write('🌙 Snoopy y la estrella perdida
+
+Una noche tranquila en el techo de su casita roja, Snoopy observaba el cielo lleno de estrellas. De pronto, notó que una de ellas parpadeaba diferente, como si lo estuviera llamando.
+
+“¡Debe necesitar ayuda!”, pensó, poniéndose su casco de aviador. Subió a su casita, que mágicamente se transformó en su avión imaginario, y despegó rumbo al cielo.
+
+Voló entre nubes, saludó a la Luna y esquivó cometas hasta encontrar la estrella. Estaba atrapada en una telaraña de nubes oscuras. Con su valentía (y un poco de su encanto), Snoopy sopló con fuerza hasta liberarla.
+
+La estrella brilló más que nunca y, en agradecimiento, le guiñó un ojo antes de volver a su lugar en el cielo.
+
+Snoopy regresó a su casita, se acomodó en su manta y murmuró con una sonrisa:
+“Un héroe más... en pijama.” ✨'
         
         )
            
