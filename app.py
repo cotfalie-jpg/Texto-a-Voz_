@@ -20,7 +20,7 @@ except:
     pass
 
 st.subheader("Una pequeña Fábula.")
-st.write('🌙 Snoopy y la estrella perdida
+st.write('Snoopy y la estrella perdida
 
 Una noche tranquila en el techo de su casita roja, Snoopy observaba el cielo lleno de estrellas. De pronto, notó que una de ellas parpadeaba diferente, como si lo estuviera llamando.
 
@@ -31,7 +31,7 @@ Voló entre nubes, saludó a la Luna y esquivó cometas hasta encontrar la estre
 La estrella brilló más que nunca y, en agradecimiento, le guiñó un ojo antes de volver a su lugar en el cielo.
 
 Snoopy regresó a su casita, se acomodó en su manta y murmuró con una sonrisa:
-“Un héroe más... en pijama.” ✨'
+“Un héroe más... en pijama.”'
         
         )
            
