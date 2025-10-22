@@ -7,7 +7,7 @@ from gtts import gTTS
 from PIL import Image
 import base64
 
-st.title("Conversión de Texto a Audio")
+st.title("Snoopy y la estrella perdida")
 image = Image.open('snoopy.png')
 st.image(image, width=350)
 with st.sidebar:
@@ -19,7 +19,7 @@ try:
 except:
     pass
 
-st.subheader("Una pequeña Fábula.")
+st.subheader("Lee esta historia...")
 st.write("""Snoopy y la estrella perdida, Una noche tranquila en el techo de su casita roja, Snoopy observaba el cielo lleno de estrellas. De pronto, notó que una de ellas parpadeaba diferente, como si lo estuviera llamando.
 “¡Debe necesitar ayuda!”, pensó, poniéndose su casco de aviador. Subió a su casita, que mágicamente se transformó en su avión imaginario, y despegó rumbo al cielo.
 Voló entre nubes, saludó a la Luna y esquivó cometas hasta encontrar la estrella. Estaba atrapada en una telaraña de nubes oscuras. Con su valentía (y un poco de su encanto), Snoopy sopló con fuerza hasta liberarla.
@@ -27,7 +27,7 @@ La estrella brilló más que nunca y, en agradecimiento, le guiñó un ojo antes
 Snoopy regresó a su casita, se acomodó en su manta y murmuró con una sonrisa: “Un héroe más... en pijama.""" )
            
 st.markdown(f"Quieres escucharlo?, copia el texto")
-text = st.text_area("Ingrese El texto a escuchar.")
+text = st.text_area("Ingrese El texto que quieres escuchar.")
 
 tld='com'
 option_lang = st.selectbox(
