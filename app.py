@@ -2,91 +2,138 @@ import streamlit as st
 import os
 import time
 import glob
-import os
 from gtts import gTTS
 from PIL import Image
 import base64
 
-st.title("Snoopy y la estrella perdida")
-image = Image.open('snoopy.png')
-st.image(image, width=350)
+# ===== CONFIGURACIÓN GENERAL =====
+st.set_page_config(page_title="BAE | Cuento del Osito", page_icon="🧸", layout="centered")
+
+# ===== COLORES E IDENTIDAD VISUAL BAE =====
+COLOR_PRIMARIO = "#DD8E6B"   # Melocotón
+COLOR_SECUNDARIO = "#FFF8EA" # Fondo cálido
+COLOR_ACENTO = "#FFF2C3"     # Amarillo pastel
+COLOR_SUAVE = "#C6E2E3"      # Azul agua
+
+# ===== ESTILO CSS =====
+st.markdown(f"""
+    <style>
+        body {{
+            background-color: {COLOR_SECUNDARIO};
+            color: #3C3C3C;
+            font-family: 'Poppins', sans-serif;
+        }}
+        h1, h2, h3 {{
+            color: {COLOR_PRIMARIO};
+            font-weight: 700;
+        }}
+        .stApp {{
+            background-color: {COLOR_SECUNDARIO};
+        }}
+        .stButton>button {{
+            background-color: {COLOR_SUAVE};
+            color: #3C3C3C;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            padding: 0.5em 1em;
+            transition: all 0.3s ease;
+        }}
+        .stButton>button:hover {{
+            background-color: {COLOR_PRIMARIO};
+            color: white;
+            transform: scale(1.03);
+        }}
+        textarea, input {{
+            border-radius: 10px !important;
+            border: 1px solid {COLOR_PRIMARIO}30 !important;
+            background-color: #FFFFFF !important;
+        }}
+        section[data-testid="stSidebar"] {{
+            background-color: {COLOR_ACENTO};
+            border-right: 2px solid {COLOR_PRIMARIO}20;
+        }}
+    </style>
+""", unsafe_allow_html=True)
+
+# ===== ENCABEZADO PRINCIPAL =====
+st.title("🧸 Nube, el osito que quería abrazar el cielo")
+
+try:
+    image = Image.open('osito_bae.png')
+    st.image(image, width=350)
+except:
+    st.image("https://via.placeholder.com/350x250.png?text=Osito+Nube", width=350)
+
+# ===== CUENTO =====
+cuento = """
+En un bosque suave como el algodón vivía Nube, un osito de pelaje blanco que soñaba con tocar el cielo.  
+Cada mañana miraba las nubes y pensaba: “Si tan solo pudiera abrazarlas, ¡seguro serían tan suaves como yo!” ☁️  
+
+Un día, decidió construir una torre de hojas, flores y ramitas para alcanzarlas.  
+Trepa que trepa, llegó tan alto que el viento empezó a jugar con sus orejas.  
+Pero justo cuando iba a tocar una nube, esta se deshizo en una lluvia suave que lo hizo reír. 🌧️  
+
+Mojadito y feliz, Nube entendió que no hacía falta alcanzar el cielo para sentirse cerca de él.  
+Solo bastaba mirar arriba y sonreír, sabiendo que las nubes también lo miraban desde allá. 🌈  
+"""
+
+st.subheader("📖 Escucha la historia")
+st.write(cuento)
+
+# ===== SIDEBAR =====
 with st.sidebar:
-    st.subheader("Esrcibe y/o selecciona texto para ser escuchado.")
+    st.subheader("🎧 Convierte tu cuento en audio")
+    st.write("Convierte el texto del osito Nube en un cuento narrado con voz suave.")
+    st.write("Ideal para antes de dormir o para calmar a tu bebé. 🌙")
 
-
+# ===== FUNCIÓN DE AUDIO =====
 try:
     os.mkdir("temp")
 except:
     pass
 
-st.subheader("Lee esta historia...")
-st.write("""Snoopy y la estrella perdida, Una noche tranquila en el techo de su casita roja, Snoopy observaba el cielo lleno de estrellas. De pronto, notó que una de ellas parpadeaba diferente, como si lo estuviera llamando.
-“¡Debe necesitar ayuda!”, pensó, poniéndose su casco de aviador. Subió a su casita, que mágicamente se transformó en su avión imaginario, y despegó rumbo al cielo.
-Voló entre nubes, saludó a la Luna y esquivó cometas hasta encontrar la estrella. Estaba atrapada en una telaraña de nubes oscuras. Con su valentía (y un poco de su encanto), Snoopy sopló con fuerza hasta liberarla.
-La estrella brilló más que nunca y, en agradecimiento, le guiñó un ojo antes de volver a su lugar en el cielo.
-Snoopy regresó a su casita, se acomodó en su manta y murmuró con una sonrisa: “Un héroe más... en pijama.""" )
-           
-st.markdown(f"Quieres escucharlo?, copia el texto")
-text = st.text_area("Ingrese El texto que quieres escuchar.")
+st.subheader("💬 Convierte tu texto en audio")
+text = st.text_area("🍼 Escribe o pega el texto que quieres escuchar:", cuento)
 
-tld='com'
-option_lang = st.selectbox(
-    "Selecciona el lenguaje",
-    ("Español", "English"))
-if option_lang=="Español" :
-    lg='es'
-if option_lang=="English" :
-    lg='en'
+option_lang = st.selectbox("🌎 Selecciona el idioma", ("Español", "English"))
+lg = "es" if option_lang == "Español" else "en"
 
-def text_to_speech(text, tld,lg):
-    
-    tts = gTTS(text,lang=lg) # tts = gTTS(text,'en', tld, slow=False)
-    try:
-        my_file_name = text[0:20]
-    except:
-        my_file_name = "audio"
+def text_to_speech(text, lg):
+    tts = gTTS(text, lang=lg)
+    my_file_name = text[:20] if len(text) > 0 else "audio"
     tts.save(f"temp/{my_file_name}.mp3")
-    return my_file_name, text
+    return my_file_name
 
+if st.button("🎵 Convertir a Audio"):
+    if text.strip():
+        result = text_to_speech(text, lg)
+        audio_file = open(f"temp/{result}.mp3", "rb")
+        audio_bytes = audio_file.read()
+        st.markdown("### 💖 Tu historia lista para escuchar:")
+        st.audio(audio_bytes, format="audio/mp3", start_time=0)
 
-#display_output_text = st.checkbox("Verifica el texto")
+        # Descargar archivo
+        with open(f"temp/{result}.mp3", "rb") as f:
+            data = f.read()
 
-if st.button("convertir a Audio"):
-     result, output_text = text_to_speech(text, 'com',lg)#'tld
-     audio_file = open(f"temp/{result}.mp3", "rb")
-     audio_bytes = audio_file.read()
-     st.markdown(f"## Tú audio:")
-     st.audio(audio_bytes, format="audio/mp3", start_time=0)
+        def get_download_link(bin_data, filename="cuento_osito.mp3", label="📥 Descargar cuento"):
+            bin_str = base64.b64encode(bin_data).decode()
+            href = f'<a href="data:audio/mp3;base64,{bin_str}" download="{filename}" style="color:{COLOR_PRIMARIO};text-decoration:none;font-weight:600;">{label}</a>'
+            return href
 
-     #if display_output_text:
-     
-     #st.write(f" {output_text}")
-    
-#if st.button("ElevenLAabs",key=2):
-#     from elevenlabs import play
-#     from elevenlabs.client import ElevenLabs
-#     client = ElevenLabs(api_key="a71bb432d643bbf80986c0cf0970d91a", # Defaults to ELEVEN_API_KEY)
-#     audio = client.generate(text=f" {output_text}",voice="Rachel",model="eleven_multilingual_v1")
-#     audio_file = open(f"temp/{audio}.mp3", "rb")
+        st.markdown(get_download_link(data), unsafe_allow_html=True)
+    else:
+        st.warning("Por favor escribe o pega un texto antes de convertirlo a audio.")
 
-     with open(f"temp/{result}.mp3", "rb") as f:
-         data = f.read()
-
-     def get_binary_file_downloader_html(bin_file, file_label='File'):
-        bin_str = base64.b64encode(data).decode()
-        href = f'<a href="data:application/octet-stream;base64,{bin_str}" download="{os.path.basename(bin_file)}">Download {file_label}</a>'
-        return href
-     st.markdown(get_binary_file_downloader_html("audio.mp3", file_label="Audio File"), unsafe_allow_html=True)
-
+# ===== LIMPIEZA DE ARCHIVOS TEMPORALES =====
 def remove_files(n):
-    mp3_files = glob.glob("temp/*mp3")
+    mp3_files = glob.glob("temp/*.mp3")
     if len(mp3_files) != 0:
         now = time.time()
         n_days = n * 86400
         for f in mp3_files:
             if os.stat(f).st_mtime < now - n_days:
                 os.remove(f)
-                print("Deleted ", f)
-
 
 remove_files(7)
